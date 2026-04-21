@@ -3,5 +3,5 @@ from bookings import views
 
 
 urlpatterns = [
-    path('', views.index),
+    path('<int:booking_id>/', views.index),
 ]

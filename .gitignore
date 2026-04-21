@@ -3,4 +3,7 @@ __pycache__/
 *.pyc
 .env
 Тестовое сервис бронирования отелей.txt
+ORM.md
 .vscode/
+migrations/
+db.sqlite3
