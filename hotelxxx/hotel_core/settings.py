@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "rooms.apps.RoomsConfig",
     "bookings.apps.BookingsConfig",
     'django_extensions',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

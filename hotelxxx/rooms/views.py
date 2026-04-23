@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from rest_framework import generics
+from .models import Room
+from .serializers import RoomSerializer
 
 
-def index(request, room_id):
-    return HttpResponse(f'<h1>Страница приложения номеров</h1><h2>room:{room_id} </h2>')
+class RoomApiView(generics.ListCreateAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
