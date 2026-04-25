@@ -28,7 +28,6 @@ class BookingListApiView(generics.ListAPIView):
     ordering = ["start_date"]
     
 
-
 class DestroyApiView(generics.DestroyAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingListSerializer
