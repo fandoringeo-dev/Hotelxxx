@@ -18,8 +18,8 @@ class BookingCreateApiView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response({'booking_id': serializer.instance.id}, status=status.HTTP_201_CREATED)
+          
         
-    
 class BookingListApiView(generics.ListAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingListSerializer
@@ -27,6 +27,11 @@ class BookingListApiView(generics.ListAPIView):
     ordering_fields = ["start_date"]
     ordering = ["start_date"]
     
+
+    def get_queryset(self):
+        query = super().get_queryset()
+        room_id = self.request.query_params['room_id']
+        return query.filter(room_id=room_id)
 
 class DestroyApiView(generics.DestroyAPIView):
     queryset = Booking.objects.all()
