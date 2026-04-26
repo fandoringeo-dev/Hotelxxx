@@ -4,9 +4,14 @@
 import os
 import sys
 
+from logging_setup import setup_logging
+
+logger = setup_logging()
+
 
 def main():
     """Run administrative tasks."""
+    logger.info("Service starting")
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hotel_core.settings")
     try:
         from django.core.management import execute_from_command_line
