@@ -138,10 +138,10 @@ class RoomsTests(APITestCase):
         """
 
         room = self.create_room(description="Room to delete", price=2500)
-        boking1 = Booking.objects.create(
+        Booking.objects.create(
             room_id=room.id, start_date=date(2026, 1, 1), end_date=date(2026, 1, 3)
         )
-        boking2 = Booking.objects.create(
+        Booking.objects.create(
             room_id=room.id, start_date=date(2026, 1, 4), end_date=date(2026, 1, 5)
         )
 
