@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rooms.apps.RoomsConfig",
     "bookings.apps.BookingsConfig",
-    'django_extensions',
-    'rest_framework'
+    "django_extensions",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -90,7 +90,6 @@ DATABASES = {
         },
     }
 }
-
 
 
 # Password validation

@@ -2,8 +2,8 @@ from datetime import date
 
 from rest_framework import status
 from rest_framework.test import APITestCase
-
 from rooms.models import Room
+
 from .models import Booking
 
 

@@ -1,7 +1,9 @@
-from rest_framework.test import APITestCase
-from rest_framework import status
+from datetime import date, timedelta
+
+from bookings.models import Booking
 from django.utils import timezone
-from datetime import timedelta
+from rest_framework import status
+from rest_framework.test import APITestCase
 
 from .models import Room
 
@@ -52,9 +54,7 @@ class RoomsTests(APITestCase):
             status.HTTP_200_OK,
             msg="Rooms list was not returned",
         )
-        self.assertEqual(
-            len(response.data), 2, msg="Rooms count in response is incorrect"
-        )
+        self.assertEqual(len(response.data), 2, msg="Rooms count in response is incorrect")
         self.assertEqual(
             set(response.data[0].keys()),
             {"id", "type", "description", "price", "created_at", "updated_at"},
@@ -130,6 +130,22 @@ class RoomsTests(APITestCase):
         response = self.client.delete(f"/api/v1/rooms/{room.id}", format="json")
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(
-            Room.objects.count(), 0, msg="Room was not deleted from database"
+        self.assertEqual(Room.objects.count(), 0, msg="Room was not deleted from database")
+
+    def test_delete_room_with_cascade_bookings(self):
+        """
+        DELETE /rooms/<id> должен удалить все брони на эту комнату
+        """
+
+        room = self.create_room(description="Room to delete", price=2500)
+        boking1 = Booking.objects.create(
+            room_id=room.id, start_date=date(2026, 1, 1), end_date=date(2026, 1, 3)
         )
+        boking2 = Booking.objects.create(
+            room_id=room.id, start_date=date(2026, 1, 4), end_date=date(2026, 1, 5)
+        )
+
+        response = self.client.delete(f"/api/v1/rooms/{room.id}", format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Booking.objects.count(), 0, msg="Booking was not deleted from database")
