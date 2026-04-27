@@ -1,9 +1,10 @@
 from datetime import date, timedelta
 
-from bookings.models import Booking
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APITestCase
+
+from bookings.models import Booking
 
 from .models import Room
 

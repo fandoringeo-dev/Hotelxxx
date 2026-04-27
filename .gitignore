@@ -5,5 +5,4 @@ __pycache__/
 Тестовое сервис бронирования отелей.txt
 ORM.md
 .vscode/
-migrations/
 db.sqlite3

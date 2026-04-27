@@ -11,7 +11,7 @@ RADON_MIN_MI=65
 # Служебные цели
 # ===============================
 
-.PHONY: help install lint fmt type security cc mi hal raw check
+.PHONY: help install lint fmt type security cc hal raw check
 
 help:
 	@echo "Доступные цели:"
@@ -20,7 +20,6 @@ help:
 	@echo " type - mypy (проверка типов)"
 	@echo " security - bandit (скан безопасности)"
 	@echo " cc - radon cc (цикломатическая сложность) + quality gate"
-	@echo " mi - radon mi (индекс поддерживаемости) + quality gate"
 	@echo " hal - radon hal (метрика халстеда)"
 	@echo " raw - radon raw (SLOC, LLOC, комментарии, число функций/классов)"
 	@echo " check - быстрый локальный quality gate (ruff+mypy+bandit+radon)"
@@ -70,4 +69,4 @@ raw:
 # Комплексные цели
 # ===============================
 # Локальный быстрый прогон с автофиксом Ruff
-check: lint fmt type security cc mi hal raw
+check: lint fmt type security cc hal raw

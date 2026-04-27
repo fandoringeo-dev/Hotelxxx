@@ -17,9 +17,10 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s    
+      start_period: 10s
     restart: always
   web:
+    image: djhotel-web:1.0.0
     build:
       context: .
       dockerfile: Dockerfile
@@ -29,7 +30,7 @@ services:
     environment:
       DB_HOST: db
       APP_ENV: prod
-      LOG_LEVEL: INFO 
+      LOG_LEVEL: INFO
     logging:
       driver: "json-file"
       options:
@@ -44,7 +45,8 @@ services:
       - .:/app
       - venv_data:/app/.venv
     working_dir: /app/hotelxxx
-    command: uv run python manage.py runserver 0.0.0.0:8000
+    command: sh -c "uv run python manage.py migrate && uv run python manage.py runserver 0.0.0.0:8000"
+
   loki:
     image: grafana/loki:3.0.0
     container_name: djhotel_loki
