@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('rooms', '0001_initial'),
+        ('rooms', '0001_create_table_rooms'),
     ]
 
     operations = [

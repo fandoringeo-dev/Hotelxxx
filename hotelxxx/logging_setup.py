@@ -2,16 +2,16 @@
 import os
 import sys
 
-from django.conf import settings
 from loguru import logger
 
 
 def setup_logging():
     level = os.getenv("LOG_LEVEL", "INFO")
+    debug = os.getenv("DEBUG", False) == "True"
 
     logger.remove()
 
-    if not settings.DEBUG:
+    if not debug:
         logger.add(
             sys.stdout,
             level=level,
