@@ -35,7 +35,7 @@ class BookingListApiView(BaseBookingApiView, generics.ListAPIView):
     def get_queryset(self):
         room_id = self.request.query_params.get("room_id", None)
         service = self.service_class()
-        return service.read_list_bookings(room_id)
+        return service.read_bookings_list(room_id)
 
 
 class BookingDestroyApiView(BaseBookingApiView, generics.DestroyAPIView):

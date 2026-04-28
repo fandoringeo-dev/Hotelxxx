@@ -14,7 +14,7 @@ class BookingService:
         instance.delete()
         logger.info(f"Booking deleted: id={instance.id}")
 
-    def read_list_bookings(self, room_id: str | None) -> QuerySet:
+    def read_bookings_list(self, room_id: str | None) -> QuerySet:
         if not room_id:
             return Booking.objects.none()
 
