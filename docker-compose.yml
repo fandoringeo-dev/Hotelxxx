@@ -1,0 +1,82 @@
+services:
+  db:
+    image: postgres:17
+    container_name: djhotel_db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: always
+  web:
+    image: djhotel-web:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: djhotel_web
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+      APP_ENV: prod
+      LOG_LEVEL: INFO
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - venv_data:/app/.venv
+    working_dir: /app/hotelxxx
+    command: sh -c "uv run python manage.py migrate && uv run python manage.py runserver 0.0.0.0:8000"
+
+  loki:
+    image: grafana/loki:3.0.0
+    container_name: djhotel_loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./monitoring/loki-config.yml:/etc/loki/local-config.yaml
+  promtail:
+    image: grafana/promtail:3.0.0
+    container_name: djhotel_promtail
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - ./monitoring/promtail-config.yml:/etc/promtail/config.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - loki
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: djhotel_grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - loki
+
+
+
+volumes:
+  postgres_data:
+  venv_data:
+  grafana_data:

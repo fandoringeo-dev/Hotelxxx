@@ -1,0 +1,21 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check hotelxxx --fix
+        language: system
+        pass_filenames: false
+
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format hotelxxx
+        language: system
+        pass_filenames: false
+
+      - id: make-check
+        name: make check
+        entry: make
+        language: system
+        pass_filenames: false
+        args: ["check"]
